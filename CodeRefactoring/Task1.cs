@@ -13,13 +13,16 @@ namespace CodeRefactoring
     /// </summary>
     public class Task1
     {
+        const int max_attempts = 3;
         public int CurrentAttempt { get; private set; } = 0;
         public bool IsLockedOut { get; private set; }
 
         public bool Login(string password)
         {
-            if (!IsLockedOut)
+            if (IsLockedOut)
             {
+                return false;
+            }
                 if (password == "password123")
                 {
                     Console.WriteLine("Login successful!");
@@ -29,11 +32,12 @@ namespace CodeRefactoring
                 {
                     CurrentAttempt++;
 
+                    int remaining_attempts = max_attempts - CurrentAttempt;
                     // check the remaining attempts
-                    if (3 - CurrentAttempt > 0)
+                    if (remaining_attempts > 0)
                     {
                         //print the remaining attempts
-                        Console.WriteLine("Invalid password. Remaining attempts: " + (3 - CurrentAttempt));
+                        Console.WriteLine("Invalid password. Remaining attempts: " + (remaining_attempts));
                     }
                     else
                     {
@@ -41,9 +45,7 @@ namespace CodeRefactoring
                         Console.WriteLine("Invalid password. Account locked.");
                     }
                     return false;
-                }
-            }
-            return false;
+                }           
         }
     }
 }
