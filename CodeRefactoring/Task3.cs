@@ -18,11 +18,25 @@ namespace CodeRefactoring
     {
         public string Title { get; set; }
         public string Author { get; set; }
+
+        public void DisplayBookInfo()
+        {
+            Console.WriteLine($"Title: {Title}");
+            Console.WriteLine($"Author: {Author}");
+        }      
+        
+    }
+
+    public class BookStoreItemManager : Book
+    {
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public bool IsAvailable { get; set; }
-        public int Year { get; set; }
-
+        public void DisplayBookInfo()
+        {
+            base.DisplayBookInfo();
+            Console.WriteLine($"Price: {Price:C}");
+            Console.WriteLine($"Quantity: {Quantity}");
+        }
         public void SellBook(int quantity)
         {
             if (quantity <= Quantity)
@@ -35,13 +49,23 @@ namespace CodeRefactoring
                 Console.WriteLine($"Insufficient stock for {Title}.");
             }
         }
-
         public void RestockBook(int quantity)
         {
             Quantity += quantity;
             Console.WriteLine($"Restocked {quantity} copies of {Title}.");
         }
+    }
 
+    public class LibraryItemManager : Book
+    {
+        public bool IsAvailable { get; set; }
+        public int Year { get; set; }
+        public void DisplayBookInfo()
+        {
+            base.DisplayBookInfo();
+            Console.WriteLine($"Year: {Year}");
+            Console.WriteLine($"Availability: {(IsAvailable ? "Available" : "Not Available")}");
+        }
         public void BorrowBook()
         {
             if (IsAvailable)
@@ -54,7 +78,6 @@ namespace CodeRefactoring
                 Console.WriteLine($"{Title} is not available for borrowing.");
             }
         }
-
         public void ReturnBook()
         {
             if (!IsAvailable)
@@ -67,27 +90,6 @@ namespace CodeRefactoring
                 Console.WriteLine($"{Title} is already available.");
             }
         }
-    }
 
-    public class BookStoreItemManager : Book
-    {
-        public void DisplayBookInfo()
-        {
-            Console.WriteLine($"Title: {Title}");
-            Console.WriteLine($"Author: {Author}");
-            Console.WriteLine($"Price: {Price:C}");
-            Console.WriteLine($"Quantity: {Quantity}");
-        }
-    }
-
-    public class LibraryItemManager : Book
-    {
-        public void DisplayBookInfo()
-        {
-            Console.WriteLine($"Title: {Title}");
-            Console.WriteLine($"Author: {Author}");
-            Console.WriteLine($"Year: {Year}");
-            Console.WriteLine($"Availability: {(IsAvailable ? "Available" : "Not Available")}");
-        }
     }
 }
